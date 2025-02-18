@@ -1,1 +1,1 @@
-include!("./generated.rs");
+include!("generated.rs");
