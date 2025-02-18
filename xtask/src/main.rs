@@ -30,14 +30,33 @@ struct RawIndoor {
     room: String,
 }
 
+use clap::{Parser, Subcommand};
+
+#[derive(Parser)]
+#[command(author, version, about)]
+struct Args {
+    #[command(subcommand)]
+    command: Command,
+}
+
+#[derive(Subcommand)]
+enum Command {
+    Generate {
+        #[arg(short, long)]
+        uri: String,
+    },
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Step 1: Fetch the data
-    // let url = "http://localhost:6501/location/v1/beacons?page=0&size=100000";
-    let url = "https://api.polymaps.ethz.ch/location/v1/beacons?page=0&size=100000";
+    let args = Args::parse();
+
+    let url = match args.command {
+        Command::Generate { uri: url } => url,
+    };
+
     let response = reqwest::blocking::get(url)?;
     let api_response: ApiResponse = response.json()?;
 
-    // Step 2: Transform RawBeacon into Beacon and group by building
     let mut grouped_beacons: HashMap<String, Vec<RawBeacon>> = HashMap::new();
     for raw_beacon in api_response.beacons {
         grouped_beacons
@@ -46,8 +65,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .push(raw_beacon);
     }
 
-    // Step 3: Write a single Rust file with feature flags
-    let output_path = Path::new("/Users/raffael/code/eth/multimedia/location-tracker/eth-beacons-indoor/src/generated.rs");
+    let output_path = Path::new(
+        "./src/generated.rs",
+    );
     let mut file = File::create(&output_path)?;
 
     writeln!(
