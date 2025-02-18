@@ -137,7 +137,7 @@ dependencies = [
 
 [[package]]
 name = "eth-beacons-indoor"
-version = "0.0.3"
+version = "0.0.4"
 
 [[package]]
 name = "fastrand"
