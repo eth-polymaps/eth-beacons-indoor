@@ -90,3 +90,7 @@ WEV = []
 WPW = []
 WWA = []
 ZUE = []
+
+[workspace]
+members = ["xtask"]
+
