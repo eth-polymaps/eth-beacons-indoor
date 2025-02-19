@@ -23,7 +23,7 @@ pub struct Beacon {
 
 #[derive(Debug, Clone)]
 pub struct Location {
-    pub building: &'static str, // Changed to &str
+    pub building: &'static str,
     pub floor: &'static str,
     pub room: &'static str,
 }

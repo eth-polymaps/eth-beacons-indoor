@@ -1,30 +1,30 @@
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::fs::File;
-use std::io::Write;
+use std::io::{BufWriter, Write};
 use std::path::Path;
 
 #[derive(Deserialize, Debug)]
 struct ApiResponse {
-    beacons: Vec<RawBeacon>,
+    beacons: Vec<Beacon>,
 }
 
 #[derive(Deserialize, Debug)]
-struct RawBeacon {
+struct Beacon {
     major: u16,
     minor: u16,
-    location: RawLocation,
-    indoor: RawIndoor,
+    location: Location,
+    indoor: Room,
 }
 
 #[derive(Deserialize, Debug)]
-struct RawLocation {
+struct Location {
     lat: f64,
     lon: f64,
 }
 
 #[derive(Deserialize, Debug)]
-struct RawIndoor {
+struct Room {
     building: String,
     floor: String,
     room: String,
@@ -54,24 +54,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Command::Generate { uri: url } => url,
     };
 
-    let response = reqwest::blocking::get(url)?;
-    let api_response: ApiResponse = response.json()?;
+    let response = reqwest::blocking::get(&url)
+        .map_err(|e| format!("Failed to fetch data from {}: {}", url, e))?;
 
-    let mut grouped_beacons: HashMap<String, Vec<RawBeacon>> = HashMap::new();
-    for raw_beacon in api_response.beacons {
+    let api_response: ApiResponse = response
+        .json()
+        .map_err(|e| format!("Failed to parse JSON response: {}", e))?;
+
+    let mut grouped_beacons: HashMap<String, Vec<Beacon>> = HashMap::new();
+    for beacon in api_response.beacons {
         grouped_beacons
-            .entry(raw_beacon.indoor.building.clone())
+            .entry(beacon.indoor.building.clone())
             .or_insert_with(Vec::new)
-            .push(raw_beacon);
+            .push(beacon);
     }
 
-    let output_path = Path::new(
-        "./src/generated.rs",
-    );
-    let mut file = File::create(&output_path)?;
+    let output_path = Path::new("./src/generated.rs");
+    let file = File::create(&output_path)?;
+    let mut writer = BufWriter::new(&file);
 
     writeln!(
-        file,
+        writer,
         r#"
 pub mod resolver;
 
@@ -97,7 +100,7 @@ pub struct Beacon {{
 
 #[derive(Debug, Clone)]
 pub struct Location {{
-    pub building: &'static str, // Changed to &str
+    pub building: &'static str,
     pub floor: &'static str,
     pub room: &'static str,
 }}
@@ -166,9 +169,9 @@ pub static BEACONS: &[Beacon] = &[
     for feature_flag in &keys {
         let beacons = grouped_beacons.get(&feature_flag.clone()).unwrap();
         for beacon in beacons {
-            writeln!(file, "    #[cfg(feature = \"{}\")]", feature_flag)?;
+            writeln!(writer, "    #[cfg(feature = \"{}\")]", feature_flag)?;
             writeln!(
-                file,
+                writer,
                 r#"    Beacon {{
         id: Id {{ uuid: ETH_UUID, major: {}, minor: {} }},
         position: Position {{ lat: {}, lon: {} }},
@@ -185,7 +188,7 @@ pub static BEACONS: &[Beacon] = &[
             )?;
         }
     }
-    writeln!(file, "];")?;
+    writeln!(writer, "];")?;
 
     println!("----------------------");
     println!("features");
