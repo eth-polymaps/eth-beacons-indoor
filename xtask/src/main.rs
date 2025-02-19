@@ -9,6 +9,19 @@ struct ApiResponse {
     beacons: Vec<Beacon>,
 }
 
+impl ApiResponse {
+    fn get_beacons(self) -> Beacons {
+        let mut grouped_beacons: Beacons = Beacons::new();
+        for beacon in self.beacons {
+            grouped_beacons
+                .entry(beacon.indoor.building.clone())
+                .or_insert_with(Vec::new)
+                .push(beacon);
+        }
+        grouped_beacons
+    }
+}
+
 #[derive(Deserialize, Debug)]
 struct Beacon {
     major: u16,
@@ -44,14 +57,18 @@ enum Command {
     Generate {
         #[arg(short, long)]
         uri: String,
+        #[arg(short, long, default_value = "./src/generated.rs")]
+        output: String,
     },
 }
+
+type Beacons = HashMap<String, Vec<Beacon>>;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();
 
-    let url = match args.command {
-        Command::Generate { uri: url } => url,
+    let (url, output) = match args.command {
+        Command::Generate { uri, output } => (uri, output),
     };
 
     let response = reqwest::blocking::get(&url)
@@ -61,18 +78,24 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .json()
         .map_err(|e| format!("Failed to parse JSON response: {}", e))?;
 
-    let mut grouped_beacons: HashMap<String, Vec<Beacon>> = HashMap::new();
-    for beacon in api_response.beacons {
-        grouped_beacons
-            .entry(beacon.indoor.building.clone())
-            .or_insert_with(Vec::new)
-            .push(beacon);
-    }
+    let grouped_beacons = api_response.get_beacons();
 
-    let output_path = Path::new("./src/generated.rs");
+    let output_path = Path::new(&output);
     let file = File::create(&output_path)?;
     let mut writer = BufWriter::new(&file);
 
+    write_beacons(&mut writer, &grouped_beacons)?;
+
+    let mut keys: Vec<String> = grouped_beacons.keys().cloned().collect();
+    keys.sort();
+
+    println!("Generated file      : {:?}", output_path);
+    println!("Features (buildings): {}", keys.join(", "));
+
+    Ok(())
+}
+
+fn write_beacons(writer: &mut dyn Write, grouped_beacons: &Beacons) -> anyhow::Result<()> {
     writeln!(
         writer,
         r#"
@@ -189,13 +212,5 @@ pub static BEACONS: &[Beacon] = &[
         }
     }
     writeln!(writer, "];")?;
-
-    println!("----------------------");
-    println!("features");
-    for key in keys {
-        println!("{} = []", key);
-    }
-
-    println!("Generated file: {:?}", output_path);
     Ok(())
 }
