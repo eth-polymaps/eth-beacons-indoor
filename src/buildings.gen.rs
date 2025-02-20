@@ -1,7 +1,6 @@
 
 #[derive(Debug, Clone)]
 pub enum Building {
-
     AGS,
     BEA,
     BSS,
@@ -70,6 +69,7 @@ pub enum Building {
     RZ,
     RZY,
     SLA,
+    SON,
     STB,
     STC,
     STW,

@@ -79,7 +79,49 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .json()
         .map_err(|e| format!("Failed to parse JSON response: {}", e))?;
 
-    let grouped_beacons = api_response.get_beacons();
+    let mut grouped_beacons = api_response.get_beacons();
+
+    grouped_beacons.insert("SON".to_string(), vec![
+        Beacon {
+            major: 99,
+            minor: 16,
+            location: Location {
+                lat: 47.539442,
+                lon: 8.293186,
+            },
+            indoor: Room {
+                building: "SON".to_string(),
+                floor: "A".to_string(),
+                room: "31".to_string(),
+            },
+        },
+        Beacon {
+            major: 99,
+            minor: 17,
+            location: Location {
+                lat: 47.539474,
+                lon: 8.293205,
+            },
+            indoor: Room {
+                building: "SON".to_string(),
+                floor: "A".to_string(),
+                room: "31".to_string(),
+            },
+        },
+        Beacon {
+            major: 99,
+            minor: 20,
+            location: Location {
+                lat: 47.539487,
+                lon: 8.293172,
+            },
+            indoor: Room {
+                building: "SON".to_string(),
+                floor: "A".to_string(),
+                room: "31".to_string(),
+            },
+        },
+    ]);
 
     let mut writer = BufWriter::new(File::create(Path::new(&beacons_output))?);
     write_beacons(&mut writer, &grouped_beacons)?;
@@ -106,8 +148,7 @@ fn write_buildings(writer: &mut BufWriter<File>, mut buildings: Vec<String>) -> 
         writer,
         r#"
 #[derive(Debug, Clone)]
-pub enum Building {{
-"#
+pub enum Building {{"#
     )?;
 
     for building in buildings {
@@ -129,60 +170,7 @@ fn write_beacons(writer: &mut dyn Write, grouped_beacons: &Beacons) -> anyhow::R
         writer,
         r#"
 
-pub static BEACONS: &[Beacon] = &[
-
-    #[cfg(feature = "SON")]
-    Beacon {{
-        id: Id {{
-            uuid: ETH_UUID,
-            major: 99,
-            minor: 16,
-        }},
-        position: Position {{
-            lat: 47.539442,
-            lon: 8.293186,
-        }},
-        location: Location {{
-            building: Building.SON,
-            floor: "A",
-            room: "31",
-        }},
-    }},
-    #[cfg(feature = "SON")]
-    Beacon {{
-        id: Id {{
-            uuid: ETH_UUID,
-            major: 99,
-            minor: 17,
-        }},
-        position: Position {{
-            lat: 47.539474,
-            lon: 8.293205,
-        }},
-        location: Location {{
-            building: Building.SON,
-            floor: "A",
-            room: "31",
-        }},
-    }},
-    #[cfg(feature = "SON")]
-    Beacon {{
-        id: Id {{
-            uuid: ETH_UUID,
-            major: 99,
-            minor: 20,
-        }},
-        position: Position {{
-            lat: 47.539487,
-            lon: 8.293172,
-        }},
-            location: Location {{
-            building: Building.SON,
-            floor: "A",
-            room: "31",
-        }},
-    }},
-"#
+pub static BEACONS: &[Beacon] = &["#
     )?;
 
     let mut keys: Vec<String> = grouped_beacons.keys().cloned().collect();
