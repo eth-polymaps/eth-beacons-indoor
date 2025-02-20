@@ -197,7 +197,7 @@ pub static BEACONS: &[Beacon] = &[
                 r#"    Beacon {{
         id: Id {{ uuid: ETH_UUID, major: {}, minor: {} }},
         position: Position {{ lat: {}, lon: {} }},
-        location: Location {{ building: Building.{}, floor: "{}", room: "{}" }},
+        location: Location {{ building: Building::{}, floor: "{}", room: "{}" }},
     }},
 "#,
                 beacon.major,
