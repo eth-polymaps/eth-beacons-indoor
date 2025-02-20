@@ -147,7 +147,9 @@ fn write_buildings(writer: &mut BufWriter<File>, mut buildings: Vec<String>) -> 
     writeln!(
         writer,
         r#"
-#[derive(Debug, Clone)]
+use strum_macros::AsRefStr;
+
+#[derive(Debug, Clone, AsRefStr)]
 pub enum Building {{"#
     )?;
 

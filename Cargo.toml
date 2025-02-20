@@ -91,6 +91,10 @@ WPW = []
 WWA = []
 ZUE = []
 
+[dependencies]
+strum = "0.27.1"
+strum_macros = "0.27.1"
+
 [workspace]
 members = ["xtask"]
 
