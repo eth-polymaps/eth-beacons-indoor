@@ -1,7 +1,7 @@
 
-use strum_macros::AsRefStr;
+use strum_macros::IntoStaticStr;
 
-#[derive(Debug, Clone, AsRefStr)]
+#[derive(Debug, Clone, IntoStaticStr)]
 pub enum Building {
     AGS,
     BEA,
