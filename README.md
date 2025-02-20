@@ -33,4 +33,3 @@ This project is a Rust-based tool for generating beacon data files from a given 
     ```
 
     - `--uri`: The API endpoint to fetch beacon data from.
-    - `--output`: The path to the output file where the generated Rust source will be saved. Default is `./src/generated.rs`.

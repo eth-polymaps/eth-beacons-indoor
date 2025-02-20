@@ -1,5 +1,6 @@
 pub mod resolver;
 
+include!("buildings.gen.rs");
 
 #[derive(Debug, Clone, Default, Copy)]
 pub struct Position {
@@ -9,7 +10,7 @@ pub struct Position {
 
 #[derive(Debug, Clone)]
 pub struct Id {
-    pub uuid:  &'static str,
+    pub uuid: &'static str,
     pub major: u16,
     pub minor: u16,
 }
@@ -23,12 +24,11 @@ pub struct Beacon {
 
 #[derive(Debug, Clone)]
 pub struct Location {
-    pub building: &'static str,
+    pub building: Building,
     pub floor: &'static str,
     pub room: &'static str,
 }
 
 pub static ETH_UUID: &str = "58793564-459c-548d-bfcc-367ffd4fcd70";
 
-include!("generated.rs");
-
+include!("beacons.gen.rs");

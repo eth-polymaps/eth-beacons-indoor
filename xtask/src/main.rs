@@ -57,8 +57,6 @@ enum Command {
     Generate {
         #[arg(short, long)]
         uri: String,
-        #[arg(short, long, default_value = "./src/generated.rs")]
-        output: String,
     },
 }
 
@@ -67,9 +65,12 @@ type Beacons = HashMap<String, Vec<Beacon>>;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();
 
-    let (url, output) = match args.command {
-        Command::Generate { uri, output } => (uri, output),
+    let url = match args.command {
+        Command::Generate { uri } => uri,
     };
+
+    let buildings_output = "./src/buildings.gen.rs";
+    let beacons_output = "./src/beacons.gen.rs";
 
     let response = reqwest::blocking::get(&url)
         .map_err(|e| format!("Failed to fetch data from {}: {}", url, e))?;
@@ -80,17 +81,45 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let grouped_beacons = api_response.get_beacons();
 
-    let output_path = Path::new(&output);
-    let file = File::create(&output_path)?;
-    let mut writer = BufWriter::new(&file);
-
+    let mut writer = BufWriter::new(File::create(Path::new(&beacons_output))?);
     write_beacons(&mut writer, &grouped_beacons)?;
+
+    let mut buildings_writer = BufWriter::new(File::create(Path::new(&buildings_output))?);
+    write_buildings(
+        &mut buildings_writer,
+        grouped_beacons.keys().cloned().collect(),
+    )?;
 
     let mut keys: Vec<String> = grouped_beacons.keys().cloned().collect();
     keys.sort();
 
-    println!("Generated file      : {:?}", output_path);
+    println!("Beacons file        : {:?}", beacons_output);
     println!("Features (buildings): {}", keys.join(", "));
+
+    Ok(())
+}
+
+fn write_buildings(writer: &mut BufWriter<File>, mut buildings: Vec<String>) -> anyhow::Result<()> {
+    buildings.sort();
+
+    writeln!(
+        writer,
+        r#"
+#[derive(Debug, Clone)]
+pub enum Building {{
+"#
+    )?;
+
+    for building in buildings {
+        writeln!(writer, "    {},", building)?;
+    }
+
+    writeln!(
+        writer,
+        r#"
+}}
+"#
+    )?;
 
     Ok(())
 }
@@ -114,7 +143,7 @@ pub static BEACONS: &[Beacon] = &[
             lon: 8.293186,
         }},
         location: Location {{
-            building: "SON",
+            building: Building.SON,
             floor: "A",
             room: "31",
         }},
@@ -131,7 +160,7 @@ pub static BEACONS: &[Beacon] = &[
             lon: 8.293205,
         }},
         location: Location {{
-            building: "SON",
+            building: Building.SON,
             floor: "A",
             room: "31",
         }},
@@ -148,7 +177,7 @@ pub static BEACONS: &[Beacon] = &[
             lon: 8.293172,
         }},
             location: Location {{
-            building: "SON",
+            building: Building.SON,
             floor: "A",
             room: "31",
         }},
@@ -168,7 +197,7 @@ pub static BEACONS: &[Beacon] = &[
                 r#"    Beacon {{
         id: Id {{ uuid: ETH_UUID, major: {}, minor: {} }},
         position: Position {{ lat: {}, lon: {} }},
-        location: Location {{ building: "{}", floor: "{}", room: "{}" }},
+        location: Location {{ building: Building.{}, floor: "{}", room: "{}" }},
     }},
 "#,
                 beacon.major,
