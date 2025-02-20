@@ -29,7 +29,7 @@ This project is a Rust-based tool for generating beacon data files from a given 
 
 3. Run the tool to generate beacon data:
     ```sh
-    cargo run -- generate --uri <API-URL> --output <OUTPUT-PATH>
+    cargo run --package xtask generate --uri <API-URL> --output <OUTPUT-PATH>
     ```
 
     - `--uri`: The API endpoint to fetch beacon data from.
