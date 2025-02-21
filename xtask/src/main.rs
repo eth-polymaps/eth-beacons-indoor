@@ -1,49 +1,13 @@
-use serde::Deserialize;
-use std::collections::HashMap;
+mod api;
+
+use api::{fetch_beacons, Beacons};
+use std::fs;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
 
-#[derive(Deserialize, Debug)]
-struct ApiResponse {
-    beacons: Vec<Beacon>,
-}
-
-impl ApiResponse {
-    fn get_beacons(self) -> Beacons {
-        let mut grouped_beacons: Beacons = Beacons::new();
-        for beacon in self.beacons {
-            grouped_beacons
-                .entry(beacon.indoor.building.clone())
-                .or_insert_with(Vec::new)
-                .push(beacon);
-        }
-        grouped_beacons
-    }
-}
-
-#[derive(Deserialize, Debug)]
-struct Beacon {
-    major: u16,
-    minor: u16,
-    location: Location,
-    indoor: Room,
-}
-
-#[derive(Deserialize, Debug)]
-struct Location {
-    lat: f64,
-    lon: f64,
-}
-
-#[derive(Deserialize, Debug)]
-struct Room {
-    building: String,
-    floor: String,
-    room: String,
-}
-
 use clap::{Parser, Subcommand};
+use regex::Regex;
 
 #[derive(Parser)]
 #[command(author, version, about)]
@@ -60,8 +24,6 @@ enum Command {
     },
 }
 
-type Beacons = HashMap<String, Vec<Beacon>>;
-
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();
 
@@ -72,56 +34,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let buildings_output = "./src/buildings.gen.rs";
     let beacons_output = "./src/beacons.gen.rs";
 
-    let response = reqwest::blocking::get(&url)
-        .map_err(|e| format!("Failed to fetch data from {}: {}", url, e))?;
-
-    let api_response: ApiResponse = response
-        .json()
-        .map_err(|e| format!("Failed to parse JSON response: {}", e))?;
-
-    let mut grouped_beacons = api_response.get_beacons();
-
-    grouped_beacons.insert("SON".to_string(), vec![
-        Beacon {
-            major: 99,
-            minor: 16,
-            location: Location {
-                lat: 47.539442,
-                lon: 8.293186,
-            },
-            indoor: Room {
-                building: "SON".to_string(),
-                floor: "A".to_string(),
-                room: "31".to_string(),
-            },
-        },
-        Beacon {
-            major: 99,
-            minor: 17,
-            location: Location {
-                lat: 47.539474,
-                lon: 8.293205,
-            },
-            indoor: Room {
-                building: "SON".to_string(),
-                floor: "A".to_string(),
-                room: "31".to_string(),
-            },
-        },
-        Beacon {
-            major: 99,
-            minor: 20,
-            location: Location {
-                lat: 47.539487,
-                lon: 8.293172,
-            },
-            indoor: Room {
-                building: "SON".to_string(),
-                floor: "A".to_string(),
-                room: "31".to_string(),
-            },
-        },
-    ]);
+    let grouped_beacons = fetch_beacons(&url)?;
 
     let mut writer = BufWriter::new(File::create(Path::new(&beacons_output))?);
     write_beacons(&mut writer, &grouped_beacons)?;
@@ -132,13 +45,43 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         grouped_beacons.keys().cloned().collect(),
     )?;
 
+    let cargo_toml_path = "./Cargo.toml";
+
+    // Read the existing Cargo.toml file
+    let content = fs::read_to_string(cargo_toml_path).expect("Failed to read Cargo.toml");
+
     let mut keys: Vec<String> = grouped_beacons.keys().cloned().collect();
     keys.sort();
 
     println!("Beacons file        : {:?}", beacons_output);
-    println!("Features (buildings): {}", keys.join(", "));
+    println!("Cargo.toml          : {}", cargo_toml_path);
 
+    replace_features_cargo_toml(cargo_toml_path, &content, keys);
+
+    println!("Successfully updated [features] section in Cargo.toml!");
     Ok(())
+}
+
+fn replace_features_cargo_toml(cargo_toml_path: &str, content: &String, keys: Vec<String>) {
+    let all: Vec<String> = keys.iter().map(|k| format!("\"{}\"", k)).collect();
+    let mut new_features_section = format!("[features]\nALL = [{}]\n", all.join(", "));
+    for key in keys.iter() {
+        new_features_section.push_str(&format!("{} = []\n", key));
+    }
+
+    // Regex to match the entire `[features]` section, ensuring full replacement
+    let re = Regex::new(r"(?ms)^\[features].*").unwrap();
+
+    let new_content = if re.is_match(content) {
+        println!("Replacing existing [features] section...");
+        re.replace(content, new_features_section).to_string()
+    } else {
+        println!("Appending new [features] section...");
+        format!("{}\n\n{}", content, new_features_section)
+    };
+
+    // Write the modified content back to Cargo.toml
+    fs::write(cargo_toml_path, new_content).expect("Failed to write Cargo.toml");
 }
 
 fn write_buildings(writer: &mut BufWriter<File>, mut buildings: Vec<String>) -> anyhow::Result<()> {
