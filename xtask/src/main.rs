@@ -1,7 +1,7 @@
 mod api;
 
-use std::fs;
 use api::{fetch_beacons, Beacons};
+use std::fs;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
@@ -45,41 +45,43 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         grouped_beacons.keys().cloned().collect(),
     )?;
 
+    let cargo_toml_path = "./Cargo.toml";
+
+    // Read the existing Cargo.toml file
+    let content = fs::read_to_string(cargo_toml_path).expect("Failed to read Cargo.toml");
+
     let mut keys: Vec<String> = grouped_beacons.keys().cloned().collect();
     keys.sort();
 
     println!("Beacons file        : {:?}", beacons_output);
-    println!("Cargo.toml          : ");
+    println!("Cargo.toml          : {}", cargo_toml_path);
 
-    let cargo_toml_path = "./Cargo.toml";
-    let content = fs::read_to_string(cargo_toml_path).expect("Failed to read Cargo.toml");
+    replace_features_cargo_toml(cargo_toml_path, &content, keys);
 
-    // Define the feature keys dynamically
+    println!("Successfully updated [features] section in Cargo.toml!");
+    Ok(())
+}
+
+fn replace_features_cargo_toml(cargo_toml_path: &str, content: &String, keys: Vec<String>) {
     let all: Vec<String> = keys.iter().map(|k| format!("\"{}\"", k)).collect();
-
-    // Generate the new `[features]` section
     let mut new_features_section = format!("[features]\nALL = [{}]\n", all.join(", "));
-    for key in &keys {
+    for key in keys.iter() {
         new_features_section.push_str(&format!("{} = []\n", key));
     }
 
-    // Corrected regex: Ensures full capture of the existing `[features]` section
-    let re = Regex::new(r"(?ms)^\[features\][^\[]*").unwrap();
+    // Regex to match the entire `[features]` section, ensuring full replacement
+    let re = Regex::new(r"(?ms)^\[features].*").unwrap();
 
-    let new_content = if re.is_match(&content) {
-        // Replace existing `[features]` section
-        re.replace(&content, new_features_section).to_string()
+    let new_content = if re.is_match(content) {
+        println!("Replacing existing [features] section...");
+        re.replace(content, new_features_section).to_string()
     } else {
-        // Append `[features]` only if it's missing
+        println!("Appending new [features] section...");
         format!("{}\n\n{}", content, new_features_section)
     };
 
     // Write the modified content back to Cargo.toml
     fs::write(cargo_toml_path, new_content).expect("Failed to write Cargo.toml");
-
-    println!("Updated [features] section in Cargo.toml successfully!");
-
-    Ok(())
 }
 
 fn write_buildings(writer: &mut BufWriter<File>, mut buildings: Vec<String>) -> anyhow::Result<()> {
