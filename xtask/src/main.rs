@@ -1,11 +1,13 @@
 mod api;
 
+use std::fs;
 use api::{fetch_beacons, Beacons};
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
 
 use clap::{Parser, Subcommand};
+use regex::Regex;
 
 #[derive(Parser)]
 #[command(author, version, about)]
@@ -47,7 +49,35 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     keys.sort();
 
     println!("Beacons file        : {:?}", beacons_output);
-    println!("Features (buildings): {}", keys.join(", "));
+    println!("Cargo.toml          : ");
+
+    let cargo_toml_path = "./Cargo.toml";
+    let content = fs::read_to_string(cargo_toml_path).expect("Failed to read Cargo.toml");
+
+    // Define the feature keys dynamically
+    let all: Vec<String> = keys.iter().map(|k| format!("\"{}\"", k)).collect();
+
+    // Generate the new `[features]` section
+    let mut new_features_section = format!("[features]\nALL = [{}]\n", all.join(", "));
+    for key in &keys {
+        new_features_section.push_str(&format!("{} = []\n", key));
+    }
+
+    // Corrected regex: Ensures full capture of the existing `[features]` section
+    let re = Regex::new(r"(?ms)^\[features\][^\[]*").unwrap();
+
+    let new_content = if re.is_match(&content) {
+        // Replace existing `[features]` section
+        re.replace(&content, new_features_section).to_string()
+    } else {
+        // Append `[features]` only if it's missing
+        format!("{}\n\n{}", content, new_features_section)
+    };
+
+    // Write the modified content back to Cargo.toml
+    fs::write(cargo_toml_path, new_content).expect("Failed to write Cargo.toml");
+
+    println!("Updated [features] section in Cargo.toml successfully!");
 
     Ok(())
 }
