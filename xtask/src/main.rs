@@ -1,47 +1,9 @@
-use serde::Deserialize;
-use std::collections::HashMap;
+mod api;
+
+use api::{fetch_beacons, Beacons};
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
-
-#[derive(Deserialize, Debug)]
-struct ApiResponse {
-    beacons: Vec<Beacon>,
-}
-
-impl ApiResponse {
-    fn get_beacons(self) -> Beacons {
-        let mut grouped_beacons: Beacons = Beacons::new();
-        for beacon in self.beacons {
-            grouped_beacons
-                .entry(beacon.indoor.building.clone())
-                .or_insert_with(Vec::new)
-                .push(beacon);
-        }
-        grouped_beacons
-    }
-}
-
-#[derive(Deserialize, Debug)]
-struct Beacon {
-    major: u16,
-    minor: u16,
-    location: Location,
-    indoor: Room,
-}
-
-#[derive(Deserialize, Debug)]
-struct Location {
-    lat: f64,
-    lon: f64,
-}
-
-#[derive(Deserialize, Debug)]
-struct Room {
-    building: String,
-    floor: String,
-    room: String,
-}
 
 use clap::{Parser, Subcommand};
 
@@ -60,8 +22,6 @@ enum Command {
     },
 }
 
-type Beacons = HashMap<String, Vec<Beacon>>;
-
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::parse();
 
@@ -72,56 +32,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let buildings_output = "./src/buildings.gen.rs";
     let beacons_output = "./src/beacons.gen.rs";
 
-    let response = reqwest::blocking::get(&url)
-        .map_err(|e| format!("Failed to fetch data from {}: {}", url, e))?;
-
-    let api_response: ApiResponse = response
-        .json()
-        .map_err(|e| format!("Failed to parse JSON response: {}", e))?;
-
-    let mut grouped_beacons = api_response.get_beacons();
-
-    grouped_beacons.insert("SON".to_string(), vec![
-        Beacon {
-            major: 99,
-            minor: 16,
-            location: Location {
-                lat: 47.539442,
-                lon: 8.293186,
-            },
-            indoor: Room {
-                building: "SON".to_string(),
-                floor: "A".to_string(),
-                room: "31".to_string(),
-            },
-        },
-        Beacon {
-            major: 99,
-            minor: 17,
-            location: Location {
-                lat: 47.539474,
-                lon: 8.293205,
-            },
-            indoor: Room {
-                building: "SON".to_string(),
-                floor: "A".to_string(),
-                room: "31".to_string(),
-            },
-        },
-        Beacon {
-            major: 99,
-            minor: 20,
-            location: Location {
-                lat: 47.539487,
-                lon: 8.293172,
-            },
-            indoor: Room {
-                building: "SON".to_string(),
-                floor: "A".to_string(),
-                room: "31".to_string(),
-            },
-        },
-    ]);
+    let grouped_beacons = fetch_beacons(&url)?;
 
     let mut writer = BufWriter::new(File::create(Path::new(&beacons_output))?);
     write_beacons(&mut writer, &grouped_beacons)?;

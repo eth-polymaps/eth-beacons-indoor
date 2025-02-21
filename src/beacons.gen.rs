@@ -16951,7 +16951,7 @@ pub static BEACONS: &[Beacon] = &[
     #[cfg(feature = "ETL")]
     Beacon {
         id: Id { uuid: ETH_UUID, major: 1, minor: 5999 },
-        position: Position { lat: 47.378449679425295, lon: 8.552486768629098 },
+        position: Position { lat: 47.378461503495146, lon: 8.55246978508034 },
         location: Location { building: Building::ETL, floor: "K", room: "10.003" },
     },
 
@@ -18442,7 +18442,7 @@ pub static BEACONS: &[Beacon] = &[
     #[cfg(feature = "ETZ")]
     Beacon {
         id: Id { uuid: ETH_UUID, major: 1, minor: 5628 },
-        position: Position { lat: 47.377605187132225, lon: 8.552852652444322 },
+        position: Position { lat: 47.37760636116362, lon: 8.55285102020543 },
         location: Location { building: Building::ETZ, floor: "G", room: "60.002" },
     },
 
@@ -19660,7 +19660,7 @@ pub static BEACONS: &[Beacon] = &[
     #[cfg(feature = "ETZ")]
     Beacon {
         id: Id { uuid: ETH_UUID, major: 1, minor: 6337 },
-        position: Position { lat: 47.377634926617354, lon: 8.55253864094686 },
+        position: Position { lat: 47.37763499718088, lon: 8.552539215868634 },
         location: Location { building: Building::ETZ, floor: "C", room: "60.005" },
     },
 
@@ -20065,6 +20065,13 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 6702 },
+        position: Position { lat: 47.37728676633991, lon: 8.553408067309755 },
+        location: Location { building: Building::GLC, floor: "B", room: "17.3" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 6703 },
         position: Position { lat: 47.37731987482404, lon: 8.55361740261874 },
         location: Location { building: Building::GLC, floor: "B", room: "20.2" },
@@ -20401,6 +20408,13 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7162 },
+        position: Position { lat: 47.37751038917971, lon: 8.553848100763464 },
+        location: Location { building: Building::GLC, floor: "E", room: "26" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7163 },
         position: Position { lat: 47.37759029274694, lon: 8.553745749414936 },
         location: Location { building: Building::GLC, floor: "E", room: "26" },
@@ -20418,6 +20432,13 @@ pub static BEACONS: &[Beacon] = &[
         id: Id { uuid: ETH_UUID, major: 0, minor: 7165 },
         position: Position { lat: 47.377719409316995, lon: 8.553456897033648 },
         location: Location { building: Building::GLC, floor: "E", room: "29.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7166 },
+        position: Position { lat: 47.377732583987665, lon: 8.553346065588856 },
+        location: Location { building: Building::GLC, floor: "E", room: "31.001" },
     },
 
     #[cfg(feature = "GLC")]
@@ -20555,9 +20576,23 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7206 },
+        position: Position { lat: 47.37796480329033, lon: 8.553020875455978 },
+        location: Location { building: Building::GLC, floor: "F", room: "36.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7207 },
         position: Position { lat: 47.3780899826287, lon: 8.553040331168415 },
         location: Location { building: Building::GLC, floor: "F", room: "35" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7208 },
+        position: Position { lat: 47.37811669372039, lon: 8.553039186714745 },
+        location: Location { building: Building::GLC, floor: "F", room: "36" },
     },
 
     #[cfg(feature = "GLC")]
@@ -20569,9 +20604,65 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7250 },
+        position: Position { lat: 47.37742714587789, lon: 8.55326564301471 },
+        location: Location { building: Building::GLC, floor: "G", room: "15.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7251 },
+        position: Position { lat: 47.377403632924434, lon: 8.553298187180822 },
+        location: Location { building: Building::GLC, floor: "G", room: "15.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7252 },
         position: Position { lat: 47.37740038881371, lon: 8.553307882697695 },
         location: Location { building: Building::GLC, floor: "G", room: "10.002" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7253 },
+        position: Position { lat: 47.37738045453047, lon: 8.553330922688085 },
+        location: Location { building: Building::GLC, floor: "G", room: "16.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7254 },
+        position: Position { lat: 47.37734250819938, lon: 8.55333768969712 },
+        location: Location { building: Building::GLC, floor: "G", room: "16.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7255 },
+        position: Position { lat: 47.377319334645016, lon: 8.553370168286243 },
+        location: Location { building: Building::GLC, floor: "G", room: "17.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7256 },
+        position: Position { lat: 47.37733375766691, lon: 8.553395989460746 },
+        location: Location { building: Building::GLC, floor: "G", room: "16.002" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7257 },
+        position: Position { lat: 47.37729609842455, lon: 8.553402366600974 },
+        location: Location { building: Building::GLC, floor: "G", room: "17.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7258 },
+        position: Position { lat: 47.37728653700701, lon: 8.553461182895866 },
+        location: Location { building: Building::GLC, floor: "G", room: "18" },
     },
 
     #[cfg(feature = "GLC")]
@@ -20653,9 +20744,37 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7280 },
+        position: Position { lat: 47.37735710640804, lon: 8.553363353666496 },
+        location: Location { building: Building::GLC, floor: "F", room: "16.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7281 },
+        position: Position { lat: 47.37733382944743, lon: 8.553395944544992 },
+        location: Location { building: Building::GLC, floor: "F", room: "17.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7282 },
+        position: Position { lat: 47.37731047278801, lon: 8.553428504880785 },
+        location: Location { building: Building::GLC, floor: "F", room: "17.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7283 },
         position: Position { lat: 47.377307072335896, lon: 8.553438194109445 },
         location: Location { building: Building::GLC, floor: "F", room: "10.002" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7284 },
+        position: Position { lat: 47.37728722135587, lon: 8.553460553176869 },
+        location: Location { building: Building::GLC, floor: "F", room: "18" },
     },
 
     #[cfg(feature = "GLC")]
@@ -20670,6 +20789,13 @@ pub static BEACONS: &[Beacon] = &[
         id: Id { uuid: ETH_UUID, major: 0, minor: 7286 },
         position: Position { lat: 47.37736276003437, lon: 8.553513050722078 },
         location: Location { building: Building::GLC, floor: "F", room: "20.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7287 },
+        position: Position { lat: 47.37736171313416, lon: 8.553505557874287 },
+        location: Location { building: Building::GLC, floor: "F", room: "10.0011" },
     },
 
     #[cfg(feature = "GLC")]
@@ -20733,6 +20859,13 @@ pub static BEACONS: &[Beacon] = &[
         id: Id { uuid: ETH_UUID, major: 0, minor: 7296 },
         position: Position { lat: 47.378039134128095, lon: 8.553004793815772 },
         location: Location { building: Building::GLC, floor: "H", room: "34" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7297 },
+        position: Position { lat: 47.37796519564533, lon: 8.553020219685829 },
+        location: Location { building: Building::GLC, floor: "H", room: "36.001" },
     },
 
     #[cfg(feature = "GLC")]
@@ -20891,6 +21024,20 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7320 },
+        position: Position { lat: 47.378083931859834, lon: 8.552843689952715 },
+        location: Location { building: Building::GLC, floor: "F", room: "38.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7321 },
+        position: Position { lat: 47.37806633310307, lon: 8.552816323675904 },
+        location: Location { building: Building::GLC, floor: "F", room: "38.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7322 },
         position: Position { lat: 47.3780670685391, lon: 8.552825807190363 },
         location: Location { building: Building::GLC, floor: "F", room: "36.001" },
@@ -20898,9 +21045,51 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7323 },
+        position: Position { lat: 47.377361360923125, lon: 8.55350547253433 },
+        location: Location { building: Building::GLC, floor: "G", room: "10.0011" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7324 },
+        position: Position { lat: 47.37750582078997, lon: 8.553470723004175 },
+        location: Location { building: Building::GLC, floor: "G", room: "11.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7325 },
         position: Position { lat: 47.37752518808332, lon: 8.553505888454318 },
         location: Location { building: Building::GLC, floor: "G", room: "10.0011" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7326 },
+        position: Position { lat: 47.37752042746968, lon: 8.553444652098012 },
+        location: Location { building: Building::GLC, floor: "G", room: "12.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7327 },
+        position: Position { lat: 47.37749421975472, lon: 8.553452665968651 },
+        location: Location { building: Building::GLC, floor: "G", room: "12.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7328 },
+        position: Position { lat: 47.37746180850111, lon: 8.553401841984837 },
+        location: Location { building: Building::GLC, floor: "G", room: "13" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7329 },
+        position: Position { lat: 47.37742879804374, lon: 8.553350201432425 },
+        location: Location { building: Building::GLC, floor: "G", room: "14" },
     },
 
     #[cfg(feature = "GLC")]
@@ -20915,6 +21104,13 @@ pub static BEACONS: &[Beacon] = &[
         id: Id { uuid: ETH_UUID, major: 0, minor: 7451 },
         position: Position { lat: 47.37795339579625, lon: 8.553132681572887 },
         location: Location { building: Building::GLC, floor: "E", room: "34.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7452 },
+        position: Position { lat: 47.377965288107255, lon: 8.553020652673798 },
+        location: Location { building: Building::GLC, floor: "E", room: "36.001" },
     },
 
     #[cfg(feature = "GLC")]
@@ -20947,6 +21143,20 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7457 },
+        position: Position { lat: 47.378071974487355, lon: 8.552824633990587 },
+        location: Location { building: Building::GLC, floor: "E", room: "38.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7458 },
+        position: Position { lat: 47.37806821214519, lon: 8.552818608989988 },
+        location: Location { building: Building::GLC, floor: "E", room: "38.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7459 },
         position: Position { lat: 47.37806837334498, lon: 8.552826684844394 },
         location: Location { building: Building::GLC, floor: "E", room: "36.001" },
@@ -20961,6 +21171,13 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7481 },
+        position: Position { lat: 47.37796501984594, lon: 8.55302097247403 },
+        location: Location { building: Building::GLC, floor: "G", room: "36.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7482 },
         position: Position { lat: 47.378128986864574, lon: 8.552964295966126 },
         location: Location { building: Building::GLC, floor: "G", room: "36.0006" },
@@ -20968,9 +21185,51 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7483 },
+        position: Position { lat: 47.37808630301674, lon: 8.55284865763623 },
+        location: Location { building: Building::GLC, floor: "G", room: "38.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7484 },
+        position: Position { lat: 47.37806498267455, lon: 8.552815407394332 },
+        location: Location { building: Building::GLC, floor: "G", room: "38.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7485 },
         position: Position { lat: 47.378067704213784, lon: 8.552825367015885 },
         location: Location { building: Building::GLC, floor: "G", room: "36.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7486 },
+        position: Position { lat: 47.37804865647786, lon: 8.5527486499923 },
+        location: Location { building: Building::GLC, floor: "G", room: "39.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7487 },
+        position: Position { lat: 47.37804438498578, lon: 8.55278273566743 },
+        location: Location { building: Building::GLC, floor: "G", room: "39.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7488 },
+        position: Position { lat: 47.37803417282138, lon: 8.55272623702595 },
+        location: Location { building: Building::GLC, floor: "G", room: "39.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7489 },
+        position: Position { lat: 47.37736182262982, lon: 8.553505783351426 },
+        location: Location { building: Building::GLC, floor: "H", room: "10.0011" },
     },
 
     #[cfg(feature = "GLC")]
@@ -21038,6 +21297,13 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7534 },
+        position: Position { lat: 47.377965038095, lon: 8.553020427196659 },
+        location: Location { building: Building::GLC, floor: "D", room: "36.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7535 },
         position: Position { lat: 47.37800917831547, lon: 8.552990719910214 },
         location: Location { building: Building::GLC, floor: "D", room: "35.001" },
@@ -21073,6 +21339,13 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7560 },
+        position: Position { lat: 47.37749432681688, lon: 8.553452201539654 },
+        location: Location { building: Building::GLC, floor: "F", room: "11.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7561 },
         position: Position { lat: 47.37752260946835, lon: 8.55350310996513 },
         location: Location { building: Building::GLC, floor: "F", room: "10.0011" },
@@ -21080,9 +21353,58 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7562 },
+        position: Position { lat: 47.37752061726159, lon: 8.553443302828471 },
+        location: Location { building: Building::GLC, floor: "F", room: "12.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7563 },
+        position: Position { lat: 47.37749837267132, lon: 8.553408830877753 },
+        location: Location { building: Building::GLC, floor: "F", room: "12.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7564 },
+        position: Position { lat: 47.37746181397589, lon: 8.55340128143608 },
+        location: Location { building: Building::GLC, floor: "F", room: "13" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7565 },
+        position: Position { lat: 47.37742892335527, lon: 8.553350709878849 },
+        location: Location { building: Building::GLC, floor: "F", room: "14" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7566 },
+        position: Position { lat: 47.37742710025476, lon: 8.553265600793912 },
+        location: Location { building: Building::GLC, floor: "F", room: "15.1" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7567 },
+        position: Position { lat: 47.37740379899274, lon: 8.553298227605024 },
+        location: Location { building: Building::GLC, floor: "F", room: "15.2" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7568 },
         position: Position { lat: 47.37739954752262, lon: 8.553309355036436 },
         location: Location { building: Building::GLC, floor: "F", room: "10.002" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7569 },
+        position: Position { lat: 47.37738031826925, lon: 8.553330922688085 },
+        location: Location { building: Building::GLC, floor: "F", room: "16.1" },
     },
 
     #[cfg(feature = "GLC")]
@@ -21199,6 +21521,13 @@ pub static BEACONS: &[Beacon] = &[
 
     #[cfg(feature = "GLC")]
     Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7616 },
+        position: Position { lat: 47.3773629394856, lon: 8.55351266714145 },
+        location: Location { building: Building::GLC, floor: "H", room: "19.001" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
         id: Id { uuid: ETH_UUID, major: 0, minor: 7617 },
         position: Position { lat: 47.377367541344746, lon: 8.55356828543394 },
         location: Location { building: Building::GLC, floor: "H", room: "20.2" },
@@ -21293,6 +21622,13 @@ pub static BEACONS: &[Beacon] = &[
         id: Id { uuid: ETH_UUID, major: 0, minor: 7960 },
         position: Position { lat: 47.37729443652155, lon: 8.553476032945852 },
         location: Location { building: Building::GLC, floor: "D", room: "10.005" },
+    },
+
+    #[cfg(feature = "GLC")]
+    Beacon {
+        id: Id { uuid: ETH_UUID, major: 0, minor: 7961 },
+        position: Position { lat: 47.37738744095927, lon: 8.553545836534976 },
+        location: Location { building: Building::GLC, floor: "D", room: "10.001" },
     },
 
     #[cfg(feature = "GLC")]
