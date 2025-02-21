@@ -248,7 +248,7 @@ dependencies = [
 
 [[package]]
 name = "eth-beacons-indoor"
-version = "0.0.18"
+version = "0.0.19"
 dependencies = [
  "strum",
  "strum_macros",
